@@ -7,7 +7,8 @@ var jwt = require('express-jwt');
 var auth = jwt({
   // TODO: change this
   secret: 'MY_SECRET',
-  userProperty: 'payload'
+  userProperty: 'payload',
+  algorithms: ['sha1', 'RS256', 'HS256']
 });
 
 router.get('/profile', auth, (req, res) => {
@@ -23,3 +24,5 @@ router.get('/profile', auth, (req, res) => {
       });
   }
 });
+
+module.exports = router;
