@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AuthenticationService, UserDetails } from '../authentication.service';
 
@@ -5,14 +6,15 @@ import { AuthenticationService, UserDetails } from '../authentication.service';
   templateUrl: './profile.component.html'
 })
 export class ProfileComponent {
-  details: UserDetails;
+  public details: UserDetails | null = null;
 
-  constructor(private auth: AuthenticationService) {}
-  
-  ngOnInit() {    
-    this.auth.profile().subscribe(user => {
+  constructor(private auth: AuthenticationService) {
+  }
+
+  ngOnInit() {
+    this.auth.profile().subscribe((user: UserDetails) => {
       this.details = user;
-    }, (err) => {
+    }, (err: HttpErrorResponse) => {
       console.error(err);
     });
   }

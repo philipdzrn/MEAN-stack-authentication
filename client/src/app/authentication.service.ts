@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators/map';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 export interface UserDetails {
@@ -24,7 +24,7 @@ export interface TokenPayload {
 
 @Injectable()
 export class AuthenticationService {
-  private token: string;
+  private token: string | null = null;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -33,14 +33,14 @@ export class AuthenticationService {
     this.token = token;
   }
 
-  private getToken(): string {
+  private getToken(): string | null {
     if (!this.token) {
       this.token = localStorage.getItem('mean-token');
     }
     return this.token;
   }
 
-  public getUserDetails(): UserDetails {
+  public getUserDetails(): UserDetails | null {
     const token = this.getToken();
     let payload;
     if (token) {
@@ -71,7 +71,7 @@ export class AuthenticationService {
     }
 
     const request = base.pipe(
-      map((data: TokenResponse) => {
+      map((data: any) => {
         if (data.token) {
           this.saveToken(data.token);
         }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthenticationService, TokenPayload } from '../authentication.service';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   templateUrl: './register.component.html'
@@ -17,7 +18,7 @@ export class RegisterComponent {
   register() {
     this.auth.register(this.credentials).subscribe(() => {
       this.router.navigateByUrl('/profile');
-    }, (err) => {
+    }, (err: HttpErrorResponse) => {
       console.error(err);
     });
   }
